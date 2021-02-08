@@ -5,11 +5,13 @@
 //     "in": "instagram.com",
 //     "yt": "youtube.com",
 // }
-
+let options = {}
 let isEmpty = true
+window.SS = {}
 function updateTable() {
     chrome.storage.sync.get(['cmd'], function (data) {
         if (data) {
+            options = data;
             // document.getElementById("table").innerText = data.cmd;
             document.getElementById("table").appendChild(createTable(data.cmd))
             isEmpty = false
@@ -20,71 +22,105 @@ function updateTable() {
     });
 }    
 document.addEventListener('DOMContentLoaded', updateTable);
-document.querySelector('#update').addEventListener('click', () =>{
-    chrome.storage.sync.set({'value': "randoms"}, function() {
-        // Notify that we saved.
-        console.log('Settings saved');
-      });
-})
+// document.querySelector('#update').addEventListener('click', () =>{
+//     chrome.storage.sync.set({'value': "randoms"}, function() {
+//         // Notify that we saved.
+//         console.log('Settings saved');
+//       });
+// })
 
 // Creating table
 const createTable = (cmdObject) => {
-    var _table_ = document.createElement('table'),
-        _tr_ = document.createElement('tr'),
-        _th_ = document.createElement('th'),
-        _td_ = document.createElement('td');
-
-    function buildTableArray (dataObject) {
-        let finalArray = []
-        for (key in dataObject) {
-            let entry = {
-                cmd: key,
-                target: dataObject[key]
-            }
+    const table = document.createElement('table')
+    const tableDataArray = buildTableArrayFromCmdObject(cmdObject)
     
-            finalArray.push(entry)
-        }
-    
-        return finalArray
+    // adding headers
+    const headerTr = document.createElement('tr')
+    let headers = []
+    for (const key in tableDataArray[0]) {
+        headers.push(key)
+        var th = document.createElement('th')
+        th.appendChild(document.createTextNode(key));
+        headerTr.appendChild(th);
+    }
+    table.appendChild(headerTr)
+
+    // Adding Rows
+    for (const alias of tableDataArray) {
+        // TODO: addeventListener to tr
+        // tr.addEventListener('click', handleRowClick(this))
+        table.appendChild(getRow(headers, alias));
     }
 
-    function buildHtmlTable(object) {
-        const arr = buildTableArray(object)
-        var table = _table_.cloneNode(false),
-            columns = addAllColumnHeaders(arr, table);
-        for (var i=0, maxi=arr.length; i < maxi; ++i) {
-            var tr = _tr_.cloneNode(false);
-            for (var j=0, maxj=columns.length; j < maxj ; ++j) {
-                var td = _td_.cloneNode(false);
-                    cellValue = arr[i][columns[j]];
-                td.appendChild(document.createTextNode(arr[i][columns[j]] || ''));
-                tr.appendChild(td);
-            }
-            table.appendChild(tr);
-        }
-        return table;
-    }
-
-    function addAllColumnHeaders(arr, table)
-    {
-        var columnSet = [],
-            tr = _tr_.cloneNode(false);
-        for (var i=0, l=arr.length; i < l; i++) {
-            for (var key in arr[i]) {
-                if (arr[i].hasOwnProperty(key) && columnSet.indexOf(key)===-1) {
-                    columnSet.push(key);
-                    var th = _th_.cloneNode(false);
-                    th.appendChild(document.createTextNode(key));
-                    tr.appendChild(th);
-                }
-            }
-        }
-        table.appendChild(tr);
-        return columnSet;
-    }
-
-    return buildHtmlTable(cmdObject)
+    return table
 }
+
+// UTILS
+const buildTableArrayFromCmdObject = (dataObject) => {
+    let finalArray = []
+    for (key in dataObject) {
+        let entry = {
+            cmd: key,
+            target: dataObject[key]
+        }
+        finalArray.push(entry)
+    }
+
+    return finalArray
+}
+
+const getRow = (headers, alias) => {
+    const tr = document.createElement('tr')
+    for (const header of headers) {
+        const td = document.createElement('td');
+        td.addEventListener('click', () => makeEditable(td));
+        td.innerText = alias[header] || '';
+        tr.appendChild(td);
+    }
+    let delBtn = document.createElement('td');
+    let deleteButton = document.createElement('button');
+    const src = './assets/delete-icon.svg';
+    deleteButton.innerHTML = `<img src="${src}"/>`;
+    deleteButton.children[0].classList.add('svg-filter');
+    deleteButton.classList.add('centered', 'btn', 'btn-danger');
+    // deleteButton.addEventListener('click', () => removeRow(table, tr))
+    delBtn.appendChild(deleteButton);
+    tr.appendChild(delBtn)
+    return tr
+}
+
+const makeEditable = cell => {
+    if (!cell.classList.contains('editable')) {
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.value = cell.innerText;
+        cell.innerText = '';
+        input.addEventListener('blur', () => cancelEditable(cell));
+        input.addEventListener('keyup', event => {
+            if (event.keyCode === 13 || event.keyCode === 27) {   // enter or ESC
+                cancelEditable(cell);
+            }
+        });
+        input.classList.add('table-input');
+        if (cell.parentElement.classList.contains('gray'))
+            input.classList.add('gray');
+        cell.appendChild(input);
+        cell.classList.add('editable');
+        input.focus();
+    }
+};
+
+const cancelEditable = cell => {
+    const input = cell.children[0];
+    cell.innerText = input.value;
+    cell.classList.remove('editable');
+};
+
+const removeRow = (table, row) => {
+    table.removeChild(row);
+    recolour(table);
+}
+
 
 const noCmds = () => {
     var text = document.createElement('p')

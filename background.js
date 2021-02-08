@@ -10,9 +10,10 @@ let options = {
 chrome.storage.sync.set({cmd: options}, function() {
     console.log("set")
     console.log(options);
-  });
+  }
+);
   
-  chrome.storage.sync.get(['cmd'], function(result) {
+chrome.storage.sync.get(['cmd'], function(result) {
     console.log("set")
     console.log(result.cmd);
     console.log(typeof(result.cmd))
