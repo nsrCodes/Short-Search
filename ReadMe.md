@@ -1,6 +1,6 @@
 ## Short Search 
 
-Simple chrome extension to define aliases to certain links. Just use the the extension popup to create aliases (or _cmd_s as they are in the extension) and use the keyword **ss** to trigger the extension in the search bar
+Simple chrome extension to define aliases to certain links. Just use the the extension popup to create aliases (or _cmds_ as they are in the extension) and use the keyword **ss** to trigger the extension in the search bar
 
 > I just got overwhelmed with the number of bookmarks that I had and it came to a point where I felt navigating to the actual site would be simpler. Hence made this tool to help with my troubles
 
