@@ -8,10 +8,10 @@ Simple chrome extension to define aliases to certain links. Just use the the ext
 
 ### ToDo
 
-[x] Create Working Prototype
-[ ] Better UI
-[ ] Port to firefox
-[ ] Add demo to Readme
+- [x] Create Working Prototype
+- [ ] Better UI
+- [ ] Port to firefox
+- [ ] Add demo to Readme
 
 
 _Would Be happy if someone else also found this useful. Feel free to reach out or raise an issue or pull request_
