@@ -12,14 +12,8 @@ chrome.storage.sync.set({cmd: options}, function() {
     console.log(options);
   }
 );
-  
-chrome.storage.sync.get(['cmd'], function(result) {
-    console.log("set")
-    console.log(result.cmd);
-    console.log(typeof(result.cmd))
-    
-    resultFromStorage = result.cmd
-});
+
+// AFTER MAIN
 /*
     key is the key of value that was changed
     changes is object that has storrage change according to keys (old and new value)
@@ -28,12 +22,21 @@ chrome.storage.sync.get(['cmd'], function(result) {
 chrome.storage.onChanged.addListener(function(changes, namespace) {
     for (var key in changes) {
       var storageChange = changes[key];
-      console.log('Storage key "%s" in namespace "%s" changed. ' +
-                  'Old value was "%s", new value is "%s".',
-                  key,
-                  namespace,
-                  storageChange.oldValue,
-                  storageChange.newValue);
+      // console.log('Storage key "%s" in namespace "%s" changed. ' +
+      //             'Old value was "%s", new value is "%s".',
+      //             key,
+      //             namespace,
+      //             storageChange.oldValue,
+      //             storageChange.newValue);
+      if (key == "cmd") {
+        chrome.storage.sync.set({cmd: storageChange.newValue}, function() {
+          chrome.storage.sync.get(['cmd'], function(result) {    
+            options = result.cmd
+        });
+        });
+
+        break
+      }
     }
   }
 );
@@ -43,10 +46,14 @@ chrome.omnibox.onInputEntered.addListener(
       // Encode user input for special characters , / ? : @ & = + $ #
       const input = encodeURIComponent(text)
       if (input in options) {
-        const URL = "https://" + options[input];
+        const urlTrail = "https://"
+        let URL = options[input]
+        var searchPattern = new RegExp('^' + urlTrail, 'i');
+        if (!searchPattern.test(options[input])) {
+          URL = urlTrail + options[input];
+        }
         chrome.tabs.update(null, {url: URL})
-    }
-    
+    }  
 }
 );
 
