@@ -11,7 +11,7 @@ main()
 function main() {
   loadEvents();
   chrome.storage.sync.get(['cmd'], function (data) {
-    if (data) {
+    if (data.cmd) {
       console.log(data.cmd)
       options = data.cmd;
       for (const cmd in options) {
