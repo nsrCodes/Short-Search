@@ -16,6 +16,7 @@ To do so, follow these steps
 4. Click on **Load Unpacked** button on the top-right of the screen
 5. Navigate to where you cloned the repo and open the `src` directory. _This should load the extension into the browser_
 
+To use the extension click on the extension icon (_For now it is just the letter S_) in the available extensions. Clicking on the icon should open a popup where you can add and delete aliases that you have made.
 ---
 
 ### ToDo
