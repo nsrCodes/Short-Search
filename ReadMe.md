@@ -1,3 +1,4 @@
+![](src/images/ss_128.png)
 ## Short Search 
 
 Simple chrome extension to define aliases to certain links. Just use the the extension popup to create aliases (or _cmds_ as they are in the extension) and use the keyword **ss** to trigger the extension in the search bar
@@ -9,12 +10,13 @@ Simple chrome extension to define aliases to certain links. Just use the the ext
 ### Installation
 To install the extension, follow these steps
 
-1. Clone the repository in the directory of your choice using: `git clone `
+1. Clone the repository in the directory of your choice using: `git clone https://github.com/nsrCodes/Short-Search.git`
 2. Open chrome and navigate to `chrome://extensions/`
 3. Navigate to where you cloned the repo and open the `dist` directory. 
 4. drag abd drop the `.crx` file into the  `chrome://extensions/` page
 
 To use the extension click on the extension icon (_For now it is just the letter S_) in the available extensions. Clicking on the icon should open a popup where you can add and delete aliases that you have made.
+
 ---
 
 ### ToDo
@@ -24,5 +26,7 @@ To use the extension click on the extension icon (_For now it is just the letter
 - [ ] Port to firefox
 - [ ] Add demo to Readme
 
+---
+_**Would Be happy if someone else also found this useful. Feel free to reach out or raise an issue or pull request**_
 
-_Would Be happy if someone else also found this useful. Feel free to reach out or raise an issue or pull request_
+Logo credit - [Rushil Kondal](https://github.com/rushilkoundal)
