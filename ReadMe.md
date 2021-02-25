@@ -13,7 +13,7 @@ To install the extension, follow these steps
 1. Clone the repository in the directory of your choice using: `git clone https://github.com/nsrCodes/Short-Search.git`
 2. Open chrome and navigate to `chrome://extensions/`
 3. Navigate to where you cloned the repo and open the `dist` directory. 
-4. drag abd drop the `.crx` file into the  `chrome://extensions/` page
+4. drag and drop the `.crx` file into the  `chrome://extensions/` page
 
 To use the extension click on the extension icon (_For now it is just the letter S_) in the available extensions. Clicking on the icon should open a popup where you can add and delete aliases that you have made.
 
